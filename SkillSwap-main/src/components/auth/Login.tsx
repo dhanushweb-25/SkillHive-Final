@@ -40,10 +40,10 @@ export default function Login() {
       });
 
       const data = await response.json();
-
+      console.log("HII",data.user.id);
       if (response.ok) {
-        setuser_id(data.username);
-        localStorage.setItem('user_id', data.username);
+        setuser_id(data.user.id);
+        localStorage.setItem('user_id', data.user.id);
         localStorage.setItem('email', login.email);
         navigate('/Home');
       } else {

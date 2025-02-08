@@ -65,7 +65,6 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/users", (req, res) => {
-  console.log("Test1");
   db.query("SELECT * FROM users", (err, results) => {
     if (err) {
       console.error("Error fetching users:", err);
@@ -74,6 +73,38 @@ app.get("/users", (req, res) => {
     res.json(results);
   });
 });
+
+
+app.get("/getreqs", async(req,res) => {
+  console.log(req.params);
+})
+
+app.post("/req", async(req,res) => {
+  const { user_id, receiver_id, skills, desired_skills, message } = req.body;
+
+    // Validate required fields
+    if (!user_id || !receiver_id || !skills || !desired_skills || !message) {
+        return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    // Insert request into the database
+    const sql = `
+        INSERT INTO skill_requests (user_id, receiver_id, skills, desired_skills, message)
+        VALUES (?, ?, ?, ?, ?)
+    `;
+
+    db.query(sql, [user_id, receiver_id, skills, desired_skills, message], (err, result) => {
+        if (err) {
+            console.error('Error inserting request:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+
+        res.status(201).json({ 
+            message: 'Request sent successfully', 
+            request_id: result.insertId 
+        });
+    });
+})
 
 app.post("/login", (req, res) => {
   const { username, email, password } = req.body;

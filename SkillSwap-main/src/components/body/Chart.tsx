@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
 import { PersonDetailsProps } from '../../schema structure/Schema';
-import { sendRequest } from '../../schema structure/Schema';
+import { SendRequest } from '../../schema structure/Schema';
 import { username_context } from '../../App';
 
 import { CircleUser } from 'lucide-react';
 
-export default function PersonDetails({ name, rating, skills, skill_id, receiver_id }: PersonDetailsProps) {
+export default function PersonDetails({ name, rating, skills, desired_skills, receiver_id }: PersonDetailsProps) {
     const { user_id } = React.useContext(username_context);
     console.log('user_id in Home', user_id);
 
@@ -14,11 +14,11 @@ export default function PersonDetails({ name, rating, skills, skill_id, receiver
     const [msg, setmsg] = useState('');
     const [disabled, setdisabled] = useState(true);
 
-    const senddata: sendRequest = {
-        user_id: user_id,
+    const senddata: SendRequest = {
+        user_id: Number(user_id),
         receiver_id: receiver_id,
         skills: skills,
-        skill_id: skill_id,
+        desired_skills: desired_skills,
         message: msg,
     };
 
@@ -30,9 +30,8 @@ export default function PersonDetails({ name, rating, skills, skill_id, receiver
 
         try {
             setdisabled(false);
-
             // POST request to save data to the database
-            const response = await fetch('https://skill-api.penneithendral.workers.dev/requests', {
+            const response = await fetch('http://localhost:5000/req', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -72,6 +71,9 @@ export default function PersonDetails({ name, rating, skills, skill_id, receiver
                     </p>
                     <p>
                         <span className="font-bold">Skills</span> : {skills}
+                    </p>
+                    <p>
+                    <span className="font-bold">Desired Skills</span> : {desired_skills}
                     </p>
                 </div>
             </div>

@@ -38,8 +38,8 @@ export default function Home() {
               name={person.username || 'Unknown'}
               rating={person.rating || 0}
               skills={person.offeredSkills || 'Not specified'}
-              skill_id={person.desiredSkills}
-              receiver_id={person.email}
+              desired_skills={person.desiredSkills}
+              receiver_id={person.id}
             />
           ))
         )}

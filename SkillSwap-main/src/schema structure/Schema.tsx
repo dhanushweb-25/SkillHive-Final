@@ -4,23 +4,21 @@ export type PersonDetails = {
   email: string;
   password: string;
   offeredSkills: string; // Comma-separated values
-  desiredSkills: string; 
-  experienceLevel:string;
+  desiredSkills: string;
+  experienceLevel: 'Beginner' | 'Intermediate' | 'Expert';
   availability: string;
-  rating : number; 
-    
+  rating: number;
 };
-export type Requsetrecived= {
-	map(arg0: (x: any) => any): unknown;
-  requester_id:string;
-  
-  skill_id: string;
-     requester_name: string;
-      requester_skills: string; 
-      message: string 
-    }
 
-//used in Sign component
+export type RequestReceived = {
+  requester_id: number;
+  skill_id: string;
+  requester_name: string;
+  requester_skills: string;
+  message: string;
+};
+
+// Used in Sign component
 export type Signin = {
   username: string;
   email: string;
@@ -32,27 +30,29 @@ export type Signin = {
   rating?: number; // Optional, as it has a default value in SQL
 };
 
-  //used in chart components
+// Used in Chart component
 export type PersonDetailsProps = {
-receiver_id: string;
-name: string;
-rating: number;
-skill_id: string;
-skills: string;
+  receiver_id: number;
+  name: string;
+  rating: number;
+  desired_skills: string;
+  skills: string;
 };
-// put equal
-// const mappedResults: PersonDetailsProps[] results.map(result => ({
-//   receiver_id: result.user_id,
-//   name: result.username,
-//   rating: result.rating,
-//   skill_id: result.skill_ids.split(','),
-//   skills: result.skill_names.split(','),
-// }));
-export type sendRequest = {
-      user_id:string
-      receiver_id:string
-      skills: string;
-      skill_id:string
-      message: string;
-  };
 
+// Convert results into PersonDetailsProps[]
+export const mappedResults = (results: PersonDetails[]): PersonDetailsProps[] =>
+  results.map((result: PersonDetails) => ({
+    receiver_id: result.id, // Ensure ID is properly mapped
+    name: result.username,
+    rating: result.rating ?? 0, // Default to 0 if rating is undefined
+    desired_skills: result.desiredSkills ?? '', // Ensure it's always a string
+    skills: result.offeredSkills ?? '',
+  }));
+
+export type SendRequest = {
+  user_id: number;
+  receiver_id: number;
+  skills: string;
+  desired_skills: string;
+  message: string;
+};

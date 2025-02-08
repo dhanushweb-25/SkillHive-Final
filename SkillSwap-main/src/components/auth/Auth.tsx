@@ -25,8 +25,8 @@ export default function Auth() {
 
 				<div className='grid grid-cols-2 w-full h-full gap-2'>
 					{!swapauth?
-					<button  onClick={() => setswap(true)} className='text-sm'>Already have acount?</button>:
-					<button  onClick={() => setswap( false)} className='text-sm'>Don't have a acount?</button>}
+					<button  onClick={() => setswap(true)} className='text-sm'>Already have account?</button>:
+					<button  onClick={() => setswap( false)} className='text-sm'>Don't have a account?</button>}
 				</div>
 			</div>
 		</div>
